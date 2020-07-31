@@ -90,8 +90,8 @@ function handler($event, $context)
 
     return [
         'isBase64Encoded' => false,
-        'statusCode' => $response->getStatusCode(), // 返回$response中的HTTP状态码
-        'headers' => $response->headers->all(), // 返回$response中的header
+        'statusCode' => $response->getStatusCode(),
+        'headers' => $headers,
         'body' => $response->getContent()
     ];
 }
