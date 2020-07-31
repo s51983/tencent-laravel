@@ -80,14 +80,18 @@ function handler($event, $context)
     // 支持teminate中间件
     $kernel->terminate($request, $response);
 
-    // init content
-    $body = $response->getContent();
-    $contentType = $response->headers->get('Content-Type');
+    $headers=[];
+    foreach($response->headers->all() as $key=>$value){
+        $headers[$key] = implode(';', $value);
+    }
+    if(!isset($headers['content-type'])){
+        $headers['content-type'] = $request->ajax()?'application/json':'text/html; charset=UTF-8';
+    }
 
     return [
         'isBase64Encoded' => false,
         'statusCode' => $response->getStatusCode(), // 返回$response中的HTTP状态码
         'headers' => $response->headers->all(), // 返回$response中的header
-        'body' => $body
+        'body' => $response->getContent()
     ];
 }
